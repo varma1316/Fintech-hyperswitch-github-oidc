@@ -177,11 +177,33 @@ resource "aws_iam_role_policy_attachment" "backend_ecr" {
 
 resource "aws_iam_policy" "backend_eks_secrets_policy" {
   name        = "${var.project_name}-github-backend-policy"
-  description = "Permissions for backend CI/CD: EKS cluster access and Secrets retrieval"
+  description = "Permissions for backend CI/CD: ECR push/manage, EKS cluster access, and Secrets retrieval"
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+      {
+        Sid    = "ECRImagePushAndRepoManagement"
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetRepositoryPolicy",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages",
+          "ecr:DescribeImages",
+          "ecr:BatchGetImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload",
+          "ecr:PutImage",
+          "ecr:CreateRepository",
+          "ecr:TagResource",
+          "ecr:BatchDeleteImage"
+        ]
+        Resource = "*"
+      },
       {
         Sid    = "EKSAccess"
         Effect = "Allow"
@@ -213,3 +235,4 @@ resource "aws_iam_role_policy_attachment" "backend_eks_secrets" {
   role       = aws_iam_role.backend_role.name
   policy_arn = aws_iam_policy.backend_eks_secrets_policy.arn
 }
+

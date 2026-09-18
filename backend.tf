@@ -7,8 +7,9 @@ terraform {
   # terraform init -migrate-state -backend-config="bucket=<YOUR_STATE_BUCKET>"
   #
    backend "s3" {
-     key     = "aws-github-oidc/terraform.tfstate"
+     key     = "github_oidc/terraform.tfstate"
      region  = "us-east-1"
      encrypt = true
    }
 }
+
