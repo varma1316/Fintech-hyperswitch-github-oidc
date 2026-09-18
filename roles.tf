@@ -21,7 +21,10 @@ resource "aws_iam_role" "terraform_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_owner}/${var.terraform_repo_name}:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:${var.github_owner}/${var.terraform_repo_name}:*",
+              "repo:${var.github_owner}*${var.terraform_repo_name}*:*"
+            ]
           }
         }
       }
@@ -62,7 +65,10 @@ resource "aws_iam_role" "frontend_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_owner}/${var.frontend_repo_name}:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:${var.github_owner}/${var.frontend_repo_name}:*",
+              "repo:${var.github_owner}*${var.frontend_repo_name}*:*"
+            ]
           }
         }
       }
@@ -157,7 +163,10 @@ resource "aws_iam_role" "backend_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_owner}/${var.backend_repo_name}:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:${var.github_owner}/${var.backend_repo_name}:*",
+              "repo:${var.github_owner}*${var.backend_repo_name}*:*"
+            ]
           }
         }
       }
